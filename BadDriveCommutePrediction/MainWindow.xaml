@@ -1,0 +1,44 @@
+﻿<!--
+    INTRODUCTION:
+    This is a proof of concept for the 2013 NuPIC Hackathon written by Ryan Elisei in less than 24 hours
+    
+    This application is an approximation of what driving traffic incident mapping and prediction would look like using the Bing Maps API
+    The Traffic API details are available here: http://msdn.microsoft.com/en-us/library/hh441725.aspx
+    The original goal was to predict latitude and logitude, which can be done, but due to time constraints at the hackathon, the scope was
+    reduced to only predicting the latitude of an accident.
+    
+    The data used in FakeTrafficData.csv is an approximation of output of what data may looking like when retrieved and put into a useful
+    format from the Bing Maps Traffic API. It contains hard-coded trends, such as accidents near down-town at 2am, and a higher
+    concentration of incidents during the morning commute along the common commuting routes. Also note that the grid of incident
+    occurences in east Seattle were simple a default area for non-peak traffic hour low severity traffic incidents. Again, this data
+    was only for demonstration purposes and not what would be found in the API.
+    Also, the prediction steps used were for the next 1 step and the next 5 steps, so you will notice that the first few rows of the
+    traffic data do not contains predictions at the end of the data columns.
+    It is possibleto use different techniques to predict both lattitude and longitude, but thsoe approaches were also cut due to
+    time constraints. Predictions were made via NuPIC.
+    
+    Further improvements would aim to produce a new route based on where accidents are predicted to occur along the default route. This
+    would make the route directions highly time sensitive, and not useful beyond the time scale when the predictions were made.
+    -->
+    
+    
+<Window x:Class="BadDriveCommutePrediction.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
+        Title="MainWindow" Height="515" Width="732">
+    <Grid Name="myGrid">
+        <Canvas Name="myCanvas">
+            <!-- YOU NEED TO GET YOUR OWN BING MAPS DEVELOPER KEY FROM: http://msdn.microsoft.com/en-us/library/ff428642.aspx -->
+            <m:Map Name="TheWorld"
+                   CredentialsProvider="YOUR_BING_MAP_API_KEY_GOES_HERE"
+                   Center="47.614,-122.25"
+                   ZoomLevel="12"
+                   Height="485" Width="724">
+            </m:Map>
+            <Label Name="timeLabel" Content="" HorizontalAlignment="Left" Height="27" VerticalAlignment="Top" Width="356" Canvas.Left="25" Canvas.Top="10" FontWeight="Bold" Foreground="#FF32BE32"/>
+            <Button Name="playButton" Content="Play History" HorizontalAlignment="Left" Margin="10,453,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
+            <Button x:Name="nextPrediction" Content="Next" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="nextPrediction_Click" Canvas.Left="101" Canvas.Top="453"/>
+        </Canvas>
+    </Grid>
+</Window>
